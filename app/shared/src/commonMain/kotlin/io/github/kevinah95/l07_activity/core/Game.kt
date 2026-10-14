@@ -126,7 +126,20 @@ class Game : GameSession {
      * 7. Retornar true.
      */
     fun castSpell(): Boolean {
-        // TODO: Completar la lógica de disparo
-        return false
+        if (spell.casts <= 0) return false
+        spell.casts -= 1
+
+        val projectile = createSpell()
+        val dir = vectorFromAngle(spell.targetAngle)
+        projectile.vx = dir.x * spell.basePower
+        projectile.vy = dir.y * spell.basePower
+
+        val c = player.center()
+        spawn(
+            projectile,
+            c.x - projectile.spriteWidth / 2.0,
+            c.y - projectile.spriteHeight / 2.0
+        )
+        return true
     }
 }
